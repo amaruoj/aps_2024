@@ -12,7 +12,7 @@ mats = dir(fullfile(folder, 'mean_data', 'mean*'));
 vars = {'u','v','w','Pressure','Density'};
 nvars = length(vars);
 chunk_size = 2000;
-test_name = folder(strfind(folder, 'M0'):end);
+test_name = folder(strfind(folder, 'M0'):end-1);
 radiusLabel = "R/D_e, Radial Distance from Nozzle Exit";
 
 % cylindrical data coordinate definition
@@ -28,7 +28,7 @@ Y = R .* sin(Theta);
 % loop over all mats in folder
 for i = 1:length(mats)
     % load matrix data from saved mean files
-    data = load(fullfile(folder, mats(i).name)).vol_data;
+    data = load(fullfile(folder,'mean_data', mats(i).name)).vol_data;
 
     % set time start for plot
     time_start = chunk_size * (i-1);
@@ -59,11 +59,12 @@ for i = 1:length(mats)
         end
 
         % plot at central plane (theta = 0, pi)
+        figure
         sgtitle("");
         subplot(2,1,1)
         contourf(x,r,mean_plot(:,:,1),'edgecolor','none');
         hold on
-        contourf(x,r.*-1,mean_plot(:,:,65),'edgecolor','none');
+        contourf(x,r.*-1,mean_plot(:,:,67),'edgecolor','none');
         colorbar;
         axis equal;
 

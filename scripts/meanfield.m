@@ -17,7 +17,7 @@ nvars = 5;
 
 % prep chunk processing
 nfiles = length(pcd);
-chunk_size = 1;  % each file is 0.1 acoustic time units, 2000 timesteps = 200
+chunk_size = 2000;  % each file is 0.1 acoustic time units, 2000 timesteps = 200
 nchunks = ceil(nfiles / chunk_size);
 global_data = zeros(ntheta, nr, nx, nvars); % init global mean for all chunks
 test_name = folder(strfind(folder, 'pNozzle'):end);
@@ -51,7 +51,7 @@ for k = 0:nchunks - 1
         data = data';
 
         % reshaping data
-        data = permute(data, [2,3,1]);
+        % data = permute(data, [2,3,1]);
         data = reshape(data, ntheta, nr, nx, nvars);
 
         % update running mean of this chunk
@@ -83,7 +83,7 @@ tic
 disp('all done!! averaging all the chunks together...')
 vol_data = global_data;
 filename = append('meanfield_',test_name);
-% dirname = append('matrices_',test_name);
+dirname = append('matrices_',test_name);
 out_dir = fullfile('..',dirname,'mean_data');
 save(fullfile(out_dir, filename),'vol_data','-v7.3');
 toc
