@@ -1,0 +1,9 @@
+.DS_Store
+*.m~
+*.asv
+/figs
+/logs
+/misc
+/pNozzle*
+/vm*
+/matrices*
