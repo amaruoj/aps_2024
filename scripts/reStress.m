@@ -17,13 +17,14 @@ nr = 151;
 % prep data processing loop
 vars = {'u','v','w'};
 nvars = length(vars);
+nfiles = length(pcd);
 test_name = folder(strfind(folder, 'pNozzle'):end);
 test_name = test_name(9:12);
 stress = zeros(ntheta,nr,nx,6);
 
 % step 1: retrieve meanfield data
-meanfield = dir(fullfile('..',append('matrices_',test_name), ...
-    'mean_data','meanfield*')).vol_data;
+meanfield = load(fullfile('..',append('matrices_',test_name), ...
+    'mean_data',append('meanfield_',test_name))).vol_data;
 
 % data processing loop, no chunks for this analysis
 tic
@@ -38,8 +39,7 @@ for i = 1:nfiles
     data = data';
 
     % reshaping data
-    data = permute(data, [2,3,1]);
-    data = reshape(data, ntheta, nr, nx, nvars);
+    data = reshape(data, ntheta, nr, nx, 5);
 
     % step 2: calculate fluctuation
     fluc = data - meanfield;
@@ -62,6 +62,9 @@ disp('all done!! saving reynolds stress...')
 filename = append('reynolds_stress_',test_name);
 dirname = append('matrices_',test_name);
 out_dir = fullfile('..',dirname,'stress');
+if ~exist(out_dir,'dir')
+    mkdir(out_dir);
+end
 save(fullfile(out_dir,filename),'stress','-v7.3');
 toc
 disp('finished! (*¯︶¯*)')
