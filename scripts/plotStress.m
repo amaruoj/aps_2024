@@ -8,8 +8,8 @@ function plotStress(folder)
 % line profiles for the stresses with the normalized radius and stuff
 
 % prep data for looping
-test_name = folder(strfind(folder, 'M0'):end);
-stress = load(fullfile(folder,'stress',append('reynolds_stress_',test_name))).stress;
+test_name = folder(strfind(folder, 'M0'):strfind(folder, 'M0')+3);
+stress = load(fullfile(folder,append('reynolds_stress_',test_name))).stress;
 vars = {'U','V','W'};
 nvars = length(vars);
 
