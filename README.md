@@ -1,5 +1,4 @@
 # APS DFD 2024
-prep for aps 2024 extended abstract
 Collection of scripts and figures in preparation for the submission of an extended abstract for the 2024 APS DFD conference this coming November. These scripts describe the meanfield and Reynolds stress tensor generated from jet data provided by Gary Wu from nozzles designed by Georgia Tech. This data has not been included in this repo. These scripts analyze a volumetric point cloud, as opposed to my previous work with planar point clouds, but was just as easy to set up.
 
 ## Scripts
@@ -10,4 +9,4 @@ Collection of scripts and figures in preparation for the submission of an extend
 5. `plotStress.m`: plots contours of each component of the stress tensor (no normalization), as well as line plots of all components of the stress tensor at different x-stations. Also includes plots tracking the calculation of the jet's half-width, just to ensure the goodness of the radius normalization.
 
 ## Data Representation
-TODO: update this section
+TODO: update this section!
