@@ -9,4 +9,4 @@ Collection of scripts and figures in preparation for the submission of an extend
 5. `plotStress.m`: plots contours of each component of the stress tensor (no normalization), as well as line plots of all components of the stress tensor at different x-stations. Also includes plots tracking the calculation of the jet's half-width, just to ensure the goodness of the radius normalization.
 
 ## Data Representation
-TODO: update this section!
+TODO: update this section...
