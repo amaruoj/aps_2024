@@ -73,7 +73,7 @@ for k = 0:nchunks - 1
 
     % update global mean
     weight = nt / nfiles;   % not all chunks are the same size, some have more weight than others
-    global_data = global_data + (weight .* (chunk_data ./ nchunks));
+    global_data = global_data + (weight .* chunk_data);
     
     % manage memory
     clear vol_data data chunk_data
