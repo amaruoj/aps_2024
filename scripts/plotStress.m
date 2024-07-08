@@ -98,14 +98,14 @@ xlabel("X/D_e");
 ylabel("r_{1/2}",'rotation',0);
 
 figure
-fig2 = plot(x,halfU,'color','red','linewidth',2);
+fig2 = plot(x,halfU,'color','magenta','linewidth',2);
 hold on
-plot(x,halfU_fit,'--','color','magenta','linewidth',2)
+plot(x,halfU_fit,'--','color','black','linewidth',2)
 plot(x,centerU,'color','blue')
 title("Jet Velocity Fit Test")
 xlabel("X/D_e")
 ylabel("Jet Velocity")
-legend("true U_{1/2}","fitted U_{1/2}","Centerline U")
+legend("true U_{1/2}","fitted U_{1/2}","Centerline U",'color','blue','linewidth',2)
 
 % save plots
 figName1 = "fit_test_r.fig";
