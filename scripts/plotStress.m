@@ -9,7 +9,9 @@ function plotStress(folder)
 
 % prep data for looping
 test_name = folder(strfind(folder, 'M0'):strfind(folder, 'M0')+3);
+Uj = normData(test_name);
 stress = load(fullfile(folder,append('reynolds_stress_',test_name))).stress;
+stress = stress ./ (Uj^2);
 vars = {'U','V','W'};
 nvars = length(vars);
 
@@ -31,7 +33,7 @@ for i = 1:nvars
     var1 = vars{i};
     if idx == 1 || idx == 4
         figure
-        sgtitle('Components of the Reynolds Stress Tensor (No Normalization)')
+        sgtitle('Components of the Reynolds Stress Tensor, Normalized by U_J')
         idx = 1;
     end
     for j = i:nvars % so as to not repeat plots that were already made
@@ -118,7 +120,21 @@ saveas(fig2,fullfile(out_dir,figName2));
 saveas(fig2,fullfile(out_dir,pngName2));
 
 % normalize stress tensor
+stress_plot = stress_plot .* (Uj^2);
 normStress = stress_plot ./ (centerU.^2);
+
+% save normalized stress tensor
+tic
+disp('saving normalized reynolds stress...')
+filename = append('norm_stress_',test_name);
+dirname = append('matrices_',test_name);
+out_dir = fullfile('..',dirname,'stress');
+if ~exist(out_dir,'dir')
+    mkdir(out_dir);
+end
+save(fullfile(out_dir,filename),'normStress','-v7.3');
+disp('finished! (*¯︶¯*)')
+toc
 
 % plot normalized tensor versus normalized radius for each combination of
 % components at different x-stations (same from meanplot)

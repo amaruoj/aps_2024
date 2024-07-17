@@ -12,7 +12,8 @@ mats = dir(fullfile(folder, 'mean_data', 'mean*'));
 vars = {'u','v','w','Pressure','Density'};
 nvars = length(vars);
 chunk_size = 2000;
-test_name = folder(strfind(folder, 'M0'):end);
+test_name = folder(strfind(folder, 'M0'):end-1);
+[Uj, pj, rhoj] = normData(test_name);
 radiusLabel = "R/D_e, Radial Distance from Nozzle Exit";
 
 % cylindrical data coordinate definition
@@ -29,6 +30,9 @@ Y = R .* sin(Theta);
 for i = 1:length(mats)
     % load matrix data from saved mean files
     data = load(fullfile(folder,'mean_data', mats(i).name)).vol_data;
+    data(:,:,:,1:3) = data(:,:,:,1:3)./Uj;
+    data(:,:,:,4) = data(:,:,:,4)./pj;
+    data(:,:,:,5) = data(:,:,:,5)./rhoj;
 
     % set time start for plot
     time_start = chunk_size * (i-1);
@@ -66,6 +70,11 @@ for i = 1:length(mats)
         hold on
         contourf(x,r.*-1,mean_plot(:,:,67),'edgecolor','none');
         colorbar;
+        if var == 'u'; clim([0 1]); end
+        if var == 'v'; clim([-0.4 0.4]); end
+        if var == 'w'; clim([-0.4 0.4]); end
+        if var == "Pressure"; clim([0.94 1.02]); end
+        if var == "Density"; clim([0.94 1.02]); end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -84,6 +93,11 @@ for i = 1:length(mats)
         hold on
         contourf(x,r.*-1,mean_plot(:,:,97),'edgecolor','none');
         colorbar;
+        if var == 'u'; clim([0 1]); end
+        if var == 'v'; clim([-0.4 0.4]); end
+        if var == 'w'; clim([-0.4 0.4]); end
+        if var == "Pressure"; clim([0.94 1.02]); end
+        if var == "Density"; clim([0.94 1.02]); end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -166,6 +180,11 @@ for i = 1:length(mats)
             idx = idx + 1;
             contourf(X,Y,curr,'edgecolor','none');
             colorbar;
+            if var == 'u'; clim([0 1]); end
+            if var == 'v'; clim([-0.4 0.4]); end
+            if var == 'w'; clim([-0.4 0.4]); end
+            if var == "Pressure"; clim([0.94 1.002]); end
+            if var == "Density"; clim([0.94 1.02]); end
             axis equal;
             if k < 4
                 ax = gca;
