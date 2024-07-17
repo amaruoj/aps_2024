@@ -12,7 +12,7 @@ mats = dir(fullfile(folder, 'mean_data', 'mean*'));
 vars = {'u','v','w','Pressure','Density'};
 nvars = length(vars);
 chunk_size = 2000;
-test_name = folder(strfind(folder, 'M0'):end-1);
+test_name = folder(strfind(folder, 'M0'):end);
 [Uj, pj, rhoj] = normData(test_name);
 radiusLabel = "R/D_e, Radial Distance from Nozzle Exit";
 
