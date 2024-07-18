@@ -71,10 +71,19 @@ for i = 1:length(mats)
         contourf(x,r.*-1,mean_plot(:,:,67),'edgecolor','none');
         colorbar;
         if var == 'u'; caxis([0 1]); end
-        if var == 'v'; caxis([-0.4 0.4]); end
-        if var == 'w'; caxis([-0.4 0.4]); end
-        if var == "Pressure"; caxis([0.94 1.02]); end
-        if var == "Density"; caxis([0.94 1.02]); end
+        if var == 'u'; caxis([0 1]); end
+	      if var == 'v'; caxis([-0.03 0.03]); end
+        if var == 'w'; caxis([-0.03 0.03]); end
+        if contains(test_name, "M0p8")
+		      if var == "Pressure"; caxis([0.99 1.001]); end
+		      if var == "Density"; caxis([0.88 1.03]); end
+	      elseif contains(test_name, "M0p9")
+	      	if var == "Pressure"; caxis([0.98 1.001]); end
+	      	if var == "Density"; caxis([0.86 1.001]); end
+      	else
+        	if var == "Pressure"; caxis([0.99 1.001]); end
+        	if var == "Density"; caxis([0.95 1]); end
+      	end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -94,10 +103,18 @@ for i = 1:length(mats)
         contourf(x,r.*-1,mean_plot(:,:,97),'edgecolor','none');
         colorbar;
         if var == 'u'; caxis([0 1]); end
-        if var == 'v'; caxis([-0.4 0.4]); end
-        if var == 'w'; caxis([-0.4 0.4]); end
-        if var == "Pressure"; caxis([0.94 1.02]); end
-        if var == "Density"; caxis([0.94 1.02]); end
+	      if var == 'v'; caxis([-0.03 0.03]); end
+        if var == 'w'; caxis([-0.03 0.03]); end
+        if contains(test_name, "M0p8")
+		      if var == "Pressure"; caxis([0.99 1.001]); end
+		      if var == "Density"; caxis([0.88 1.03]); end
+	      elseif contains(test_name, "M0p9")
+	      	if var == "Pressure"; caxis([0.98 1.001]); end
+	      	if var == "Density"; caxis([0.86 1.001]); end
+      	else
+        	if var == "Pressure"; caxis([0.99 1.001]); end
+        	if var == "Density"; caxis([0.95 1]); end
+      	end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -181,10 +198,18 @@ for i = 1:length(mats)
             contourf(X,Y,curr,'edgecolor','none');
             colorbar;
             if var == 'u'; caxis([0 1]); end
-            if var == 'v'; caxis([-0.4 0.4]); end
-            if var == 'w'; caxis([-0.4 0.4]); end
-            if var == "Pressure"; caxis([0.94 1.002]); end
-            if var == "Density"; caxis([0.94 1.02]); end
+            if var == 'v'; caxis([-0.03 0.03]); end
+            if var == 'w'; caxis([-0.03 0.03]); end
+            if contains(test_name, "M0p8")
+              if var == "Pressure"; caxis([0.99 1.001]); end
+              if var == "Density"; caxis([0.88 1.03]); end
+            elseif contains(test_name, "M0p9")
+              if var == "Pressure"; caxis([0.98 1.001]); end
+              if var == "Density"; caxis([0.86 1.001]); end
+            else
+              if var == "Pressure"; caxis([0.99 1.001]); end
+              if var == "Density"; caxis([0.95 1]); end
+            end
             axis equal;
             if k < 4
                 ax = gca;
