@@ -26,6 +26,8 @@ nr = 151;
 % plot contours
 disp('generating contour plots for each component of the stress tensor...')
 stress_plot = permute(stress, [3,2,1,4]);   % now in order [x,r,theta,<ij>]
+stress_plot = mean(stress_plot, 3);
+stress_plot = permute(stress_plot, [1,2,4,3]);
 idx = 1;
 mat_idx = 1;
 fig_idx = 1;
@@ -40,11 +42,12 @@ for i = 1:nvars
         var2 = vars{j};
         subplot(nvars,1,idx);
         % plot contour in direction <i,j>
-        contourf(x,r,stress_plot(:,:,1,mat_idx)','edgecolor','none');
+        contourf(x,r,stress_plot(:,:,mat_idx)','edgecolor','none');
         hold on
-        contourf(x,r.*-1,stress_plot(:,:,67,mat_idx)','edgecolor','none');
+        contourf(x,r.*-1,stress_plot(:,:,mat_idx)','edgecolor','none');
         colorbar;
-        % axis equal
+        caxis([0 0.025]);
+	% axis equal
 
         % title shenanigans
         xlabel("X/D_e, X-Distance from Nozzle Exit");
@@ -75,7 +78,7 @@ end
 % plot lines, much more involved :C
 % normalize radius
 disp('generating line plots for stress tensor profiles...')
-meanfield = load(fullfile('..',append('matrices_',test_name), ...
+meanfield = load(fullfile('..','..',append('matrices_',test_name), ...
     'mean_data',append('meanfield_',test_name))).vol_data;
 meanfield = permute(meanfield, [3,2,1,4]);  % now in order [x,r,theta,var]
 centerU = meanfield(:,1,1,1);   % meanfield centerline velocity in the u-direction
@@ -142,7 +145,7 @@ xidx = [1,26,126,251,376,501,626,751];
 xStations = [0,1,5,10,15,20,25,30];
 for i = 1:length(xStations)
     % pull data to plot
-    currStress = permute(normStress(xidx(i),:,1,:), [2,4,1,3]);
+    currStress = permute(normStress(xidx(i),:,:), [2,3,1]);
     currR = normR(xidx(i),:)';
 
     % plot
