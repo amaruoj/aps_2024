@@ -70,11 +70,11 @@ for i = 1:length(mats)
         hold on
         contourf(x,r.*-1,mean_plot(:,:,67),'edgecolor','none');
         colorbar;
-        if var == 'u'; clim([0 1]); end
-        if var == 'v'; clim([-0.4 0.4]); end
-        if var == 'w'; clim([-0.4 0.4]); end
-        if var == "Pressure"; clim([0.94 1.02]); end
-        if var == "Density"; clim([0.94 1.02]); end
+        if var == 'u'; caxis([0 1]); end
+        if var == 'v'; caxis([-0.4 0.4]); end
+        if var == 'w'; caxis([-0.4 0.4]); end
+        if var == "Pressure"; caxis([0.94 1.02]); end
+        if var == "Density"; caxis([0.94 1.02]); end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -93,11 +93,11 @@ for i = 1:length(mats)
         hold on
         contourf(x,r.*-1,mean_plot(:,:,97),'edgecolor','none');
         colorbar;
-        if var == 'u'; clim([0 1]); end
-        if var == 'v'; clim([-0.4 0.4]); end
-        if var == 'w'; clim([-0.4 0.4]); end
-        if var == "Pressure"; clim([0.94 1.02]); end
-        if var == "Density"; clim([0.94 1.02]); end
+        if var == 'u'; caxis([0 1]); end
+        if var == 'v'; caxis([-0.4 0.4]); end
+        if var == 'w'; caxis([-0.4 0.4]); end
+        if var == "Pressure"; caxis([0.94 1.02]); end
+        if var == "Density"; caxis([0.94 1.02]); end
         axis equal;
 
         % title shenanigans for central plane plot
@@ -180,11 +180,11 @@ for i = 1:length(mats)
             idx = idx + 1;
             contourf(X,Y,curr,'edgecolor','none');
             colorbar;
-            if var == 'u'; clim([0 1]); end
-            if var == 'v'; clim([-0.4 0.4]); end
-            if var == 'w'; clim([-0.4 0.4]); end
-            if var == "Pressure"; clim([0.94 1.002]); end
-            if var == "Density"; clim([0.94 1.02]); end
+            if var == 'u'; caxis([0 1]); end
+            if var == 'v'; caxis([-0.4 0.4]); end
+            if var == 'w'; caxis([-0.4 0.4]); end
+            if var == "Pressure"; caxis([0.94 1.002]); end
+            if var == "Density"; caxis([0.94 1.02]); end
             axis equal;
             if k < 4
                 ax = gca;
