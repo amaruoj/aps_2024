@@ -34,9 +34,9 @@ data = permute(data, [3,2,1,4]);
 % pull mean data over all timesteps for given test
 test_name = folder(strfind(folder, 'pNozzle'):end);
 test_name = test_name(9:12);
-% mean_data = load(fullfile('..',append('matrices_',test_name),'mean_data', ...
-%     append('meanfield_',test_name))).vol_data;
-mean_data = load(fullfile('..','vm_mats',append('meanfield_',test_name))).vol_data;
+mean_data = load(fullfile('..',append('matrices_',test_name),'mean_data', ...
+    append('meanfield_',test_name))).vol_data;
+%mean_data = load(fullfile('..','vm_mats',append('meanfield_',test_name))).vol_data;
 mean_data = permute(mean_data, [3,2,1,4]);
 
 % apply Uj normalization
@@ -99,20 +99,60 @@ for i = 1:nvars
     saveas(gcf,fullfile(out_dir,pngName));
 end
 
-% % load stress tensor, already in shape [nx,nr,ntheata,nvars]
-% test_name = folder(strfind(folder, 'M0'):strfind(folder, 'M0')+3);
-% stress = load(fullfile(folder,'stress',append('norm_stress_',test_name))).normStress;
-% 
-% % compute fourier transform
-% q_hat = fft(stress, ntheta, 3);
-% q_hat = fftshift(q_hat, 3);
-% 
-% % find fourier coefficients
-% q_0 = permute(q_hat(:,:,ntheta/2+1,:), [1,2,4,3]);
-% q_a1 = permute(real(2.*q_hat(:,:,ntheta/2+2,:)), [1,2,4,3]);
-% q_b1 = permute(imag(2.*q_hat(:,:,ntheta/2+2,:)), [1,2,4,3]);
-% q_a2 = permute(real(2.*q_hat(:,:,ntheta/2+3,:)), [1,2,4,3]);
-% q_b2 = permute(imag(2.*q_hat(:,:,ntheta/2+3,:)), [1,2,4,3]);
+% load stress tensor, already in shape [nx,nr,ntheata,nvars]
+test_name = folder(strfind(folder, 'M0'):strfind(folder, 'M0')+3);
+stress = load(fullfile('..',append('matrices_',test_name), ...
+    'stress',append('reynolds_stress_',test_name))).stress;
+stress = stress ./ (Uj^2);
+stress = permute(stress, [3,2,1,4]);
+vars = {'UU','UV','UW','VV','VW','WW'};
+nvars = length(vars);
 
+% loop over components of the stress tensor
+for i = 1:nvars
+    % compute fourier transform
+    q_hat = fft(stress, ntheta, 3);
+    q_hat = fftshift(q_hat, 3);
 
+    % find fourier coefficients
+    q_0 = permute(q_hat(:,:,ntheta/2+1,:), [1,2,4,3]);
+    q_a1 = permute(real(2.*q_hat(:,:,ntheta/2+2,:)), [1,2,4,3]);
+    q_b1 = permute(imag(2.*q_hat(:,:,ntheta/2+2,:)), [1,2,4,3]);
+    q_a2 = permute(real(2.*q_hat(:,:,ntheta/2+3,:)), [1,2,4,3]);
+    q_b2 = permute(imag(2.*q_hat(:,:,ntheta/2+3,:)), [1,2,4,3]);
+    modes = {q_0, q_a1, q_b1, q_a2, q_b2};
+
+    % plot modes
+    currVar = vars{i};
+    figure
+    sgtitle([currVar, ' Component of the Reynolds Stress Tensor in the ', ...
+        test_name, ' case'])
+    subplot(6,1,1);
+    contourf(x,r,stress(:,:,1,i)','edgecolor','none');
+    colorbar
+    ylabel('$y/D_e$','interpreter','latex');
+    title('2D plane')
+    ax = gca; ax.XLim = [0 10]; ax.YLim = [0 2];
+    set(gcf, 'position', [100,100,1000,750]);
+    for j = 1:length(modes)
+        currMode = modes{j};
+        subplot(6,1,j+1);
+        contourf(x,r,real(currMode(:,:,i))','edgecolor','none');
+        colorbar
+        ylabel('$y/D_e$','interpreter','latex');
+        title(modenames{j});
+        ax = gca; ax.XLim = [0 10]; ax.YLim = [0 2];
+        set(gcf, 'position', [100,100,1000,750]);
+        if j == length(modes)
+            xlabel('$x/D_e$','interpreter','latex');
+        end
+    end
+
+    % save plot
+    out_dir = fullfile('..','figs',test_name);
+    figName = append('azimuthalFFT_stress_',vars{i},'_',test_name,'.fig');
+    pngName = append('azimuthalFFT_stress_',vars{i},'_',test_name,'.png');
+    saveas(gcf,fullfile(out_dir,figName));
+    saveas(gcf,fullfile(out_dir,pngName));
+end
 end
