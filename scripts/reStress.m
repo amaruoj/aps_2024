@@ -35,7 +35,6 @@ v = meanfield(:,:,:,2); w = meanfield(:,:,:,3);   % axial experiences no change
 meanfield(:,:,:,2) = v .* cos(THETA) + w .* sin(THETA);  % radial
 meanfield(:,:,:,3) = -v .* sin(THETA) + w .* cos(THETA); % azimuthal
 
-
 % data processing loop, no chunks for this analysis
 tic
 disp('reading from readBox.m...')
@@ -50,6 +49,10 @@ for i = 1:nfiles
 
     % reshaping data
     data = reshape(data, ntheta, nr, nx, 5);
+    v = data(:,:,:,2); w = data(:,:,:,3);   % axial experiences no change
+    data(:,:,:,2) = v .* cos(THETA) + w .* sin(THETA);  % radial
+    data(:,:,:,3) = -v .* sin(THETA) + w .* cos(THETA); % azimuthal
+
 
     % step 2: calculate fluctuation
     fluc = data - meanfield;
