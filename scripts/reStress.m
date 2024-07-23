@@ -15,16 +15,26 @@ ntheta = 128;
 nr = 151;
 
 % prep data processing loop
-vars = {'u','v','w'};
+vars = {'U','V','W'};
 nvars = length(vars);
 nfiles = length(pcd);
 test_name = folder(strfind(folder, 'pNozzle'):end);
 test_name = test_name(9:12);
 stress = zeros(ntheta,nr,nx,6);
 
+% cylindrical data coordinate definition
+nx = 751; ntheta = 128; nr = 151;
+x = linspace(0,30, nx)'; r = linspace(0,6, nr)';
+theta = linspace(0, 2*pi-2*pi/128, ntheta)';
+[~, THETA, ~] = meshgrid(r, theta, x);
+
 % step 1: retrieve meanfield data
 meanfield = load(fullfile('..',append('matrices_',test_name), ...
     'mean_data',append('meanfield_',test_name))).vol_data;
+v = meanfield(:,:,:,2); w = meanfield(:,:,:,3);   % axial experiences no change
+meanfield(:,:,:,2) = v .* cos(THETA) + w .* sin(THETA);  % radial
+meanfield(:,:,:,3) = -v .* sin(THETA) + w .* cos(THETA); % azimuthal
+
 
 % data processing loop, no chunks for this analysis
 tic
